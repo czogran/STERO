@@ -1,0 +1,10 @@
+na obsluge z klawiatury:
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=elektron/mobile_base_controller/cmd_vel
+
+
+chyba tak sie uruchamia laser:
+rosrun laser_scan_matcher laser_scan_matcher_node scan:=laser_scan odom:=elektron/mobile_base_controller/odom
+
+
+creating rosbag
+rosbag record -O mybackfile.bag image-topic-name
