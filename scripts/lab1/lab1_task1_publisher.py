@@ -1,31 +1,26 @@
 #!/usr/bin/env python
 # license removed for brevity
+
+#this script is responsible for getting user input and sending it on topic chatter as 
+# ROS geometry msg Pose
+
 import rospy
 from std_msgs.msg import String
 from geometry_msgs.msg import *
 
 
+#function responsible for getting user input and sending it to subscribers
 def talker():
-    #pub = rospy.Publisher('chatter', String, queue_size=10)
+   
+    #creating publisher "chatter" which sends POse Message
     pub = rospy.Publisher('chatter', Pose, queue_size=10)
+    #ROS node inicialization
     rospy.init_node('talker', anonymous=True)
-    #rate = rospy.Rate(10) # 10hz
+    #creating a Pose Message
+    pose = geometry_msgs.msg.Pose()
 
-    pose    = geometry_msgs.msg.Pose()
-
-
-    pose.position.x = 0
-    pose.position.y = 0
-    pose.position.z = 0
-        
-    pose.orientation.x = 0
-    pose.orientation.y = 0
-    pose.orientation.z = 0
-    pose.orientation.w = 0
-
+    #while script isn't closed it takes user input and publishes it
     while not rospy.is_shutdown():
-        
-        hello_str = "hello world %s" % rospy.get_time()
         print("get x")
         x=float(input())
         print("get y")
@@ -35,11 +30,8 @@ def talker():
         
         pose.position.x = x
         pose.position.y = y
-     
         pose.orientation.z = theta
         
-        rospy.loginfo(hello_str)
-        #pub.publish(hello_str)
         pub.publish(pose)
         
 
