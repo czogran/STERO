@@ -1,3 +1,5 @@
+
+
 na obsluge z klawiatury:
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=elektron/mobile_base_controller/cmd_vel
 
@@ -8,3 +10,18 @@ rosrun laser_scan_matcher laser_scan_matcher_node scan:=laser_scan odom:=elektro
 
 creating rosbag
 rosbag record -O mybackfile.bag image-topic-name
+
+for machine lags
+http://answers.gazebosim.org/question/13214/virtual-machine-not-launching-gazebo/
+export SVGA_VGPU10=0
+
+
+Do planera:
+rosrun tf static_transform_publisher 0 0 0 0 0 0 map odom 10
+
+rosrun map_server map_server holes.yaml
+
+rosservice call /global_planner/planner/make_plan
+
+ python src/mobile_STERO-19Z-Pawel-Rawicki/scripts/lab2.pyc 
+	frame_id trzeba dodac map

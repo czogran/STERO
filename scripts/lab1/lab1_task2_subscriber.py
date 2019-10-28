@@ -106,10 +106,10 @@ def move_beginner(pose):
     vel_msg=Twist()
     if(pose.position.y>=0):
         vel_msg.angular.z=velocity_theta
-        move_pose.orientation.z = turn_odom.pose.pose.orientation.z-theta_start
+#move_pose.orientation.z = turn_odom.pose.pose.orientation.z-theta_start
     else:
         vel_msg.angular.z=-velocity_theta
-        move_pose.orientation.z = turn_odom.pose.pose.orientation.z+theta_start
+#move_pose.orientation.z = turn_odom.pose.pose.orientation.z+theta_start
     
     move_pose.orientation.z=theta_start
     velocity_publisher.publish(vel_msg)    
