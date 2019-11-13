@@ -1,0 +1,4 @@
+globalPlanner1:
+ default_tolerance: 0
+ use_dijkstra: false
+ lethal_cost: 200

@@ -21,6 +21,78 @@ def count_orientation(msg):
     return yaw
 
 
+def test_xy(bag_package,chart_title):
+    script_dir = os.path.dirname(__file__)
+    rel_path = "bag_files/"+bag_package
+    abs_file_path = os.path.join(script_dir, rel_path)
+ 
+    bag  = rosbag.Bag(abs_file_path)# +bag_package)
+    
+    time=list()
+    gazebo_msgs_x=list()
+    gazebo_msgs_y=list()
+    gazebo_msgs_theta=list()
+    
+    odom_time=list()
+    odom_msgs_x=list()
+    odom_msgs_y=list()
+    odom_msgs_theta=list()
+  
+    for topic, msg, t in bag.read_messages(topics=['/gazebo_odom']): 
+        time.append(t.to_time())
+       # print(t)
+        gazebo_msgs_x.append(msg.pose.pose.position.x)
+        gazebo_msgs_y.append(msg.pose.pose.position.y)
+        gazebo_msgs_theta.append(count_orientation(msg))
+      
+    for topic1, msg1, t1 in bag.read_messages(topics=['/elektron/mobile_base_controller/odom']): #'elektron/mobile_base_controller/odom']):
+        odom_time.append(t1.to_time())
+        odom_msgs_x.append(msg1.pose.pose.position.x)
+        odom_msgs_y.append(msg1.pose.pose.position.y)
+        odom_msgs_theta.append(count_orientation(msg1))
+        #print("               ssssssssss")
+        
+    bag.close()
+    
+    error_x=list()
+    error_y=list()
+    error_theta=list()
+    
+    error_time=list()
+    
+    pos_error_x=list()
+    pos_error_y=list()
+    pos_error_theta=list()
+    
+    pos_error_time=list()
+   # print(math.floor(len(odom_msgs_x)/2))
+    #print(len(gazebo_msgs_x))
+    error_lenght=min(len(gazebo_msgs_x),(len(odom_msgs_x)))
+    for x in range(error_lenght):
+         error_x.append(gazebo_msgs_x[x]-odom_msgs_x[x])
+         error_y.append(gazebo_msgs_y[x]-odom_msgs_y[x])
+         error_theta.append(gazebo_msgs_theta[x]-odom_msgs_theta[x])
+         
+         #print(gazebo_msgs_theta[x])
+         #print(odom_msgs_theta[x*2])
+         #print(gazebo_msgs_theta[x]-odom_msgs_theta[x*2])
+         error_time.append(time[x])
+         
+   
+    
+  
+    plt.figure()
+    plt.plot(odom_msgs_x[:],odom_msgs_y[:],label='elektron ODOM position of ELEKTRON')
+    plt.plot(gazebo_msgs_x[:],gazebo_msgs_y[:],label='gazebo ODOM position of ELEKTRON')
+  #  plt.plot(odom_msgs_x[:],odom_msgs_theta[:],label='x ODOM position of ELEKTRON')
+    plt.legend(loc=0)
+   
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(chart_title)
+    #plt.show()
+    plt.savefig(chart_title+".png")
+
 def con_with_laser(bag_package,chart_title):
     script_dir = os.path.dirname(__file__)
     rel_path = "bag_files/"+bag_package
@@ -537,7 +609,7 @@ def main():
     
     bag= raw_input("Enter bag Name:  ")
     chart_title= raw_input("Enter chart title:  ")
-    con_with_laser(bag,chart_title)
+    test_xy(bag,chart_title)
     #con_no_laser(bag,chart_title)
     
     

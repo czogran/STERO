@@ -1,0 +1,8 @@
+<launch>
+
+<node name="laser_scan_matcher" pkg="laser_scan_matcher" type="laser_scan_matcher_node" > 
+	<remap from="scan" to="laser_scan"/>
+        <remap from="odom" to="elektron/mobile_base_controller/odom"/>
+
+	</node>
+</launch>

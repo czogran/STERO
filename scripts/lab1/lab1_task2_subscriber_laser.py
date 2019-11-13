@@ -67,7 +67,7 @@ def move_beginner(pose):
     current_position=turn_odom
     previous_position=turn_odom
    # print(turn_odom)
-    odom_subscriber=rospy.Subscriber('pose2D',Pose2D, turn)
+    
 
 
     vel_msg = Twist()
@@ -75,13 +75,13 @@ def move_beginner(pose):
     
     distance=math.sqrt(pow(pose.position.x,2)+pow(pose.position.y,2))
     cos_x=1
-    print("aaa")
+  
 
     if(distance>0):
         cos_x=(pose.position.x)/distance
     
-    print(pose.position.x)
-    print(cos_x)
+    #print(pose.position.x)
+    #print(cos_x)
     theta_start=math.acos(cos_x)
     
     move_pose.position.x = turn_odom.x
@@ -96,7 +96,8 @@ def move_beginner(pose):
         vel_msg.angular.z=-velocity_theta
         move_pose.orientation.z = turn_odom.theta+theta_start
     
-    print(vel_msg)
+    odom_subscriber=rospy.Subscriber('pose2D',Pose2D, turn)
+    #print(vel_msg)
     move_pose.orientation.z=theta_start
     velocity_publisher.publish(vel_msg) 
     
@@ -123,7 +124,7 @@ def last_turn(data):
     
   
     if(angle_moved>=end_turn.z):
-        print("end of turn movement")
+        print("end of last turn movement")
         velocity_publisher.publish(Twist())
         rospy.sleep(0.1)
         
@@ -133,6 +134,7 @@ def last_turn(data):
         try:
             move_beginner(poses.pop(0).pose)
         except:
+            print("end of task")
             pass
 
 def forward(data):
@@ -159,6 +161,7 @@ def forward(data):
    
     
     if(distance_moved>distance):
+        distance_moved=0
         print("end of forward movement")
         stop_msg = Twist()
         velocity_publisher.publish(stop_msg)

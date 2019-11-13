@@ -10,16 +10,26 @@ from geometry_msgs.msg import *
 from nav_msgs.msg import *
 from std_msgs.msg import String, Header
 
-#function with creates a path for turning robot in place
+#
 def forward():
     path=Path()
     path.poses.append(PoseStamped(Header(),Pose(Point(1,0,0),Quaternion(0,0,0,0))))
+    return path
+    
+def back():
+    path=Path()
+    path.poses.append(PoseStamped(Header(),Pose(Point(-1,0,0),Quaternion(0,0,0,0))))
     return path
 
 #function with creates a path for turning robot in place
 def turn():
     path=Path()
     path.poses.append(PoseStamped(Header(),Pose(Point(0,0,0),Quaternion(0,0,6.28,0))))
+    return path
+    
+def half_turn():
+    path=Path()
+    path.poses.append(PoseStamped(Header(),Pose(Point(0,0,0),Quaternion(0,0,3.14,0))))
     return path
     
 #function for a path during which robot turns, drives a given distance, turns back and come back to start point   
@@ -50,7 +60,7 @@ def square_right():
 def main():
     
     print("start")
-    path=here_and_back()
+    path=square_left()
     pub = rospy.Publisher('chatter', Path, queue_size=10)
     rospy.init_node('talker', anonymous=True)
 

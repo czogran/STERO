@@ -1,0 +1,23 @@
+<launch>
+	
+
+
+<node name="tf0" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /map /odom 10"/>
+
+  
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find stero_mobile_init)/maps/final.yaml" />
+    
+
+
+<!-- to zdaje sie byc zbedne -->
+ <node pkg="stero_mobile_init" type="proj2" respawn="false" name="proj2" output="screen">
+    <rosparam file="$(find stero_mobile_init)/maps/navigation/global_planner.yaml" command="load" />
+    
+    <rosparam file="$(find stero_mobile_init)/maps/navigation/local_costmap.yaml" command="load" />
+    <rosparam file="$(find stero_mobile_init)/maps/navigation/global_costmap.yaml" command="load" /> 
+    <rosparam file="$(find stero_mobile_init)/maps/navigation/base_local_planner.yaml" command="load" /> 
+
+ </node>
+
+</launch>

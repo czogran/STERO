@@ -31,7 +31,7 @@ from tf.transformations import *
 #declaration of robot's velocities
 velocity_x=0.5
 velocity_y=0.5
-velocity_theta=0.5
+velocity_theta=0.2
 
 #declaration of variables used for calculation of an angle which robot has turned
 angle_moved=0
@@ -275,7 +275,7 @@ def main():
     rospy.wait_for_service('/global_planner/planner/make_plan')
     get_plan = rospy.ServiceProxy('/global_planner/planner/make_plan', GetPlan)
     req = GetPlanRequest()
-    point=Point(3,-5,0)
+    point=Point(-4,-2,0)
     start_point=pos.pose.pose.position
 
     req.goal.header.frame_id='map'
@@ -290,7 +290,7 @@ def main():
 
     poses=list()
     
-    for x in range(10,len(resp.plan.poses),10):
+    for x in range(20,len(resp.plan.poses),20):
         poses.append(resp.plan.poses[x])
     print(len(resp.plan.poses))
     poses.append(resp.plan.poses[len(resp.plan.poses)-1])

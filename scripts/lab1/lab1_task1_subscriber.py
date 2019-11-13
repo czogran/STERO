@@ -66,15 +66,15 @@ def talker(data):
     #sleeping as long as robot is turnning to a given angle
     rospy.sleep(sleep_theta_start)
    
-   
-    #forward  movement of robot 
-    vel_msg.linear.x=velocity_x
-    vel_msg.angular.z=0
-    
     #stopping robot
     #it should wait a while to stop completly, then new velocity is given
     velocity_publisher.publish(stop_msg)
     rospy.sleep(0.1)
+   
+    #forward  movement of robot 
+    vel_msg.linear.x=velocity_x
+    vel_msg.angular.z=0
+   
     velocity_publisher.publish(vel_msg)
 
     sleep_x=distance/velocity_x

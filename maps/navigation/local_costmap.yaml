@@ -1,0 +1,42 @@
+local_costmap:
+
+ 
+  global_frame: odom
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: false
+  rolling_window: true
+  width: 6.0
+  height: 6.0
+  resolution: 0.05
+  footprint: [[-0.30, -0.30], [-0.30, 0.30], [0.30 , 0.30], [0.30, -0.30]] 
+
+
+  plugins: 
+    - {name: obstacle_map, type: "costmap_2d::VoxelLayer"}
+    - {name: inflation,        type: "costmap_2d::InflationLayer"}
+
+  inflation:  
+    inflation_radius: 0.1
+    cost_scaling_factor: 30.0 
+
+  obstacle_map:
+    observation_sources: laser_scan_sensor
+    track_unknown_space: true
+    footprint_clearing_enabled: true
+    combination_method: 1
+    laser_scan_sensor: {
+      topic: /laser_scan,
+      sensor_frame: base_laser_link,
+      observation_persistence: 0.0,
+      expected_update_rate: 0.1,
+      data_type: LaserScan, 
+      clearing: true, 
+      marking: true, 
+      max_obstacle_height: 5,
+      min_obstacle_height: 0, 
+      obstacle_range: 2.5,
+      raytrace_range: 3.0,
+
+      }
